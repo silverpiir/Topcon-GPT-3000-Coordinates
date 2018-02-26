@@ -4,61 +4,56 @@ from tkinter.filedialog import askopenfilename
 import ntpath
 
 def open_file():
-    nimi = askopenfilename(initialdir="/",
+    filename = askopenfilename(initialdir="/",
                            filetypes = (("Text File", "*.txt"),("All Files","*.*")),
-                           title = "Vali lähtefail."
+                           title = "Open Source File"
                            )
-    global sisendi_read
-    global valjundi_nimi
+    global infile_rows
+    global output_name
     
-    valjundi_nimi = ntpath.basename(nimi)
-    sisend = open(nimi, "r", encoding = "UTF-8")
-    sisendi_read = sisend.read().splitlines()
+    output_name = ntpath.basename(filename)
+    infile = open(filename, "r", encoding = "UTF-8")
+    infile_rows = infile.read().splitlines()
     
-    #sisendi_read on mälus järjendi kujul, seda näitab järgmine print()
-    #print(sisendi_read)
-    
-    sisend.close()
-    silt1 = tk.Label(window, text = nimi)
-    silt1.pack()
+    infile.close()
+    label_1 = tk.Label(window, text = filename)
+    label_1.pack()
     
 def add_values():
-    asi1 = (entry1.get())
-    asi2 = (entry2.get())
+    input_value_x = (entry1.get())
+    input_value_y = (entry2.get())
         
-    valjund = open("uus_" + valjundi_nimi, "w")
+    outfile = open("new_" + output_name, "w")
     
-    for rida in sisendi_read:
-        if len(rida) > 0:
-            #print(rida)
-            osad = rida.split(',')
-            osad[1] = asi1 + osad[1]
-            osad[2] = asi2 + osad[2]
-            valjund.write("{}".format(",".join(osad)))
-            valjund.write("\n")
-    valjund.close()
+    for row in infile_rows:
+        if len(row) > 0:
+            segments = row.split(',')
+            segments[1] = input_value_x + segments[1]
+            segments[2] = input_value_y + segments[2]
+            outfile.write("{}".format(",".join(segments)))
+            outfile.write("\n")
+    outfile.close()
                 
-    silt2 = tk.Label(window, text = "Loodud programmiga samas kaustas " + "uus_" + valjundi_nimi)
-    silt2.pack()
+    label_2 = tk.Label(window, text = "new_" + output_name + " created in this program's folder.)
+    label_2.pack()
 
-# Järgneb kasutajaliidese akna kood
 window = tk.Tk()
 
 window.title("Topcon GT-3000 koordinaadiprogramm")
 window.geometry("500x300")
-#window.wm_iconbitmap("prog.ico") ### Toimib, kui on samas kaustas prog.ico
+#window.wm_iconbitmap("prog.ico")
 
-label1 = tk.Label(window, text = "X - koordinaat", font = ("Helvetica", 12))
-label2 = tk.Label(window, text = "Y - koordinaat", font = ("Helvetica", 12))
-entry1 = tk.Entry(window)
-entry2 = tk.Entry(window)
-nupp = tk.Button(window, text = "Lisa väärtused", command = add_values, width = 20)
+label_x = tk.Label(window, text = "X - koordinaat", font = ("Helvetica", 12))
+label_y = tk.Label(window, text = "Y - koordinaat", font = ("Helvetica", 12))
+entry_x = tk.Entry(window)
+entry_y = tk.Entry(window)
+submit_btn = tk.Button(window, text = "Add values", command = add_values, width = 20)
 
-label1.pack(pady = 10)
-entry1.pack(pady = 2)
-label2.pack(pady = 10)
-entry2.pack(pady = 2)
-nupp.pack(pady = 10)
+label_x.pack(pady = 10)
+entry_x.pack(pady = 2)
+label_y.pack(pady = 10)
+entry_y.pack(pady = 2)
+submit_btn.pack(pady = 10)
 
 menubar = Menu(window)
 window.config(menu=menubar)
