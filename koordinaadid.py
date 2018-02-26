@@ -20,8 +20,8 @@ def open_file():
     label_1.pack()
     
 def add_values():
-    input_value_x = (entry1.get())
-    input_value_y = (entry2.get())
+    input_value_x = (entry_x.get())
+    input_value_y = (entry_y.get())
         
     outfile = open("new_" + output_name, "w")
     
@@ -34,17 +34,17 @@ def add_values():
             outfile.write("\n")
     outfile.close()
                 
-    label_2 = tk.Label(window, text = "new_" + output_name + " created in this program's folder.)
+    label_2 = tk.Label(window, text = "new_" + output_name + " created in this program's folder.")
     label_2.pack()
 
 window = tk.Tk()
 
-window.title("Topcon GT-3000 koordinaadiprogramm")
+window.title("Topcon GT-3000 Coordinates Correction")
 window.geometry("500x300")
 #window.wm_iconbitmap("prog.ico")
 
-label_x = tk.Label(window, text = "X - koordinaat", font = ("Helvetica", 12))
-label_y = tk.Label(window, text = "Y - koordinaat", font = ("Helvetica", 12))
+label_x = tk.Label(window, text = "X - coordinate", font = ("Helvetica", 12))
+label_y = tk.Label(window, text = "Y - coordinate", font = ("Helvetica", 12))
 entry_x = tk.Entry(window)
 entry_y = tk.Entry(window)
 submit_btn = tk.Button(window, text = "Add values", command = add_values, width = 20)
